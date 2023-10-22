@@ -1,0 +1,79 @@
+steps:
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - 'clone'
+  - 'https://github.com/junnn0021/microservices-demo.git'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-northeast3-docker.pkg.dev/pelagic-fin-402600/test/adservice:$BUILD_ID'
+  - '--no-cache'
+  - './src/adservice'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-northeast3-docker.pkg.dev/pelagic-fin-402600/test/adservice:latest'
+  - '--no-cache'
+  - './src/adservice'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'push'
+  - 'asia-northeast3-docker.pkg.dev/pelagic-fin-402600/test/adservice:$BUILD_ID'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'push'
+  - 'asia-northeast3-docker.pkg.dev/pelagic-fin-402600/test/adservice:latest'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'rmi'
+  - '-f'
+  - 'asia-northeast3-docker.pkg.dev/pelagic-fin-402600/test/adservice:$BUILD_ID'
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - 'auth'
+  - 'activate-service-account'
+  - '--key-file=/workspace/key.json'
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - 'auth'
+  - 'configure-docker'
+  - 'asia-northeast3-docker.pkg.dev'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'push'
+  - 'asia-northeast3-docker.pkg.dev/pelagic-fin-402600/test/adservice:latest'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'rmi'
+  - '-f'
+  - 'asia-northeast3-docker.pkg.dev/pelagic-fin-402600/test/adservice:latest'
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - 'clone'
+  - 'git@github.com:junnn0021/manifests.git'
+  - '/workspace/gitOpsRepo'
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'push'
+  - 'asia-northeast3-docker.pkg.dev/pelagic-fin-402600/test/adservice:$BUILD_ID'
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - '-C'
+  - '/workspace/gitOpsRepo/manifests'
+  - 'commit'
+  - '-m'
+  - '[UPDATE] k8s $BUILD_ID image versioning'
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - '-C'
+  - '/workspace/gitOpsRepo/manifests'
+  - 'push'
+  - '-u'
+  - 'origin'
+  - 'main'
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - 'auth'
+  - 'revoke'
