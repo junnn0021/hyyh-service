@@ -5,5 +5,26 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$SHORT_SHA"]
 
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: /bin/sh
+    secretEnv: ['GIT_ACCESS_TOKEN']
+    args:
+      - '-c'
+      - |
+        git clone https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/kubernetes-manifests.git
+        echo "Updating image tag version ..."
+        sed -i 's#test/adservice:.*#test/adservice:$SHORT_SHA#' adservice.yaml
+        echo "Pushing changes to k8s manifest repo ..."
+        git config --global user.name "junnn0021"
+        git config --global user.email "junnn0021@gmail.com"
+        git add -A
+        git commit -m "Updated image tag SHORT_SHA version"
+        git push https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/kubernetes-manifests.git
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/254364401033/secrets/js-central-github-oauthtoken-8c78f3
+      env: 'GIT_ACCESS_TOKEN'
+
 options:
   logging: 'CLOUD_LOGGING_ONLY'
