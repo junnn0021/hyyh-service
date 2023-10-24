@@ -11,7 +11,7 @@ steps:
     args:
       - '-c'
       - |
-        git clone https://junnn0021:$GIT_ACCESS_TOKEN@github.com/junnn0021/manifests.git
+        git clone https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/manifests.git
         echo "Updating image tag version ..."
         ls
         cd manifests
@@ -22,11 +22,11 @@ steps:
         git config --global user.email "junnn0021@gmail.com"
         git add .
         git commit -m "Updated image tag SHORT_SHA version"
-        git push https://junnn0021:$GIT_ACCESS_TOKEN@github.com/junnn0021/manifests.git
+        git push https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/manifests.git
 
 availableSecrets:
   secretManager:
-    - versionName: projects/254364401033/secrets/js-central-github-oauthtoken-8c78f3/versions/1
+    - versionName: projects/254364401033/secrets/js-central-github-oauthtoken-8c78f3/versions/2
       env: 'GIT_ACCESS_TOKEN'
 
 options:
