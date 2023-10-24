@@ -14,9 +14,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['rmi', '-f', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest']
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['auth', 'activate-service-account', '--key-file=/workspace/key.json']
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['auth', 'configure-docker', 'asia-northeast3-docker.pkg.dev']
+
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest']
 - name: 'gcr.io/cloud-builders/docker'
