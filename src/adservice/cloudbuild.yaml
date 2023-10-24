@@ -1,9 +1,10 @@
 steps:
-- name: 'login and build'
+- name: 'login_build'
   entrypoint: 'bash'
   args: 
   - '-c'
   - |
+    docker login asia-northeast3-docker.pkg.dev
     docker build -t asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID src/adservice
     docker build -t asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest src/adservice
     docker push asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID
