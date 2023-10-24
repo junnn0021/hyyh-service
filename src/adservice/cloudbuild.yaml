@@ -34,4 +34,4 @@ steps:
 
 options:
   logging: 'GCS_ONLY'
-  default_logs_bucket_behavior: 'gs://ci-log'
+  default_logs_bucket_behavior: 'ci-log'
