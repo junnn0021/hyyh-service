@@ -23,7 +23,7 @@ steps:
 
 availableSecrets:
   secretManager:
-    - versionName: projects/254364401033/secrets/js-central-github-oauthtoken-8c78f3
+    - versionName: projects/254364401033/secrets/js-central-github-oauthtoken-8c78f3/versions/1
       env: 'GIT_ACCESS_TOKEN'
 
 options:
