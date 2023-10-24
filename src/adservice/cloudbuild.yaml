@@ -33,5 +33,5 @@ steps:
   args: ['auth', 'revoke']
 
 options:
-  logging: 
-    - 'gs://ci-log'
+  logging: 'gs://ci-log'
+
