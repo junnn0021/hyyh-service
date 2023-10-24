@@ -1,34 +1,16 @@
 steps:
-- name: 'gcr.io/cloud-builders/git'
+- name: 'docker-build-repo-clone'
   args: ['clone', 'https://github.com/junnn0021/microservices-demo.git']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID', '--no-cache', 'src/adservice']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest', '--no-cache', 'src/adservice']
-- name: 'gcr.io/cloud-builders/docker'
+- name: 'docker-build-build-id'
+  args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID', 'src/adservice']
+- name: 'docker-build-latest'
+  args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest', 'src/adservice']
+- name: 'docker-push-build-id'
   args: ['push', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID']
-- name: 'gcr.io/cloud-builders/docker'
+- name: 'docker-push-latest'
   args: ['push', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['rmi', '-f', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['rmi', '-f', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest']
-- name: 'gcr.io/cloud-builders/gcloud'
-
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['rmi', '-f', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest']
-- name: 'gcr.io/cloud-builders/git'
+- name: 'k8s-manifests-repo-clone'
   args: ['clone', 'git@github.com:junnn0021/manifests.git', '/workspace/gitOpsRepo']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID']
-- name: 'gcr.io/cloud-builders/git'
-  args: ['-C', '/workspace/gitOpsRepo/manifests', 'commit', '-m', '[UPDATE] k8s $BUILD_ID image versioning']
-- name: 'gcr.io/cloud-builders/git'
-  args: ['-C', '/workspace/gitOpsRepo/manifests', 'push', '-u', 'origin', 'main']
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['auth', 'revoke']
 
 options:
   logging: 'CLOUD_LOGGING_ONLY'
