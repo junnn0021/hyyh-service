@@ -33,5 +33,4 @@ steps:
   args: ['auth', 'revoke']
 
 options:
-  logging: 'GCS_ONLY'
-  default_logs_bucket_behavior: 'ci-log'
+  logging: 'CLOUD_LOGGING_ONLY'
