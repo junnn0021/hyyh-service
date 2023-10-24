@@ -11,7 +11,7 @@ steps:
     args:
       - '-c'
       - |
-        git clone https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/kubernetes-manifests.git
+        git clone https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/manifests.git
         echo "Updating image tag version ..."
         sed -i 's#test/adservice:.*#test/adservice:$SHORT_SHA#' kubernetes-manifests.yaml
         echo "Pushing changes to k8s manifest repo ..."
@@ -19,7 +19,7 @@ steps:
         git config --global user.email "junnn0021@gmail.com"
         git add -A
         git commit -m "Updated image tag SHORT_SHA version"
-        git push https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/kubernetes-manifests.git
+        git push https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/manifests.git
 
 availableSecrets:
   secretManager:
