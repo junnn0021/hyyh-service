@@ -1,4 +1,6 @@
 steps:
+- name: 'docker login'
+  args: ['docker', 'login', 'asia-northeast3-docker.pkg.dev']
 - name: 'docker-build-build-id'
   args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID', 'src/adservice']
 - name: 'docker-build-latest'
