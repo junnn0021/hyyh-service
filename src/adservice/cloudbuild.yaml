@@ -1,9 +1,9 @@
 steps:
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$SHORT_SHA", "src/adservice"]
+    args: ["build", "-t", "asia-northeast3-docker.pkg.dev/pelagic-fin-402600/artifact-registry-ci/adservice:$SHORT_SHA", "src/adservice"]
 
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$SHORT_SHA"]
+    args: ["push", "asia-northeast3-docker.pkg.dev/pelagic-fin-402600/artifact-registry-ci/adservice:$SHORT_SHA"]
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: /bin/sh
@@ -26,7 +26,7 @@ steps:
 
 availableSecrets:
   secretManager:
-    - versionName: projects/254364401033/secrets/js-central-github-oauthtoken-8c78f3/versions/2
+    - versionName: projects/391691457604/secrets/git-hub-access-token/versions/1
       env: 'GIT_ACCESS_TOKEN'
 
 options:
