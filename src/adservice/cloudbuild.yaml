@@ -34,3 +34,5 @@ steps:
 
 options:
   logging: 'GCS_ONLY'
+build:
+  logsBucket: 'gs://ci-log'
