@@ -1,6 +1,4 @@
 steps:
-- name: 'docker-build-repo-clone'
-  args: ['clone', 'https://github.com/junnn0021/microservices-demo.git']
 - name: 'docker-build-build-id'
   args: ['build', '-t', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID', 'src/adservice']
 - name: 'docker-build-latest'
@@ -9,8 +7,6 @@ steps:
   args: ['push', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:$BUILD_ID']
 - name: 'docker-push-latest'
   args: ['push', 'asia-northeast3-docker.pkg.dev/leejunseok-01-400304/ci-test/adservice:latest']
-- name: 'k8s-manifests-repo-clone'
-  args: ['clone', 'git@github.com:junnn0021/manifests.git', '/workspace/gitOpsRepo']
 
 options:
   logging: 'CLOUD_LOGGING_ONLY'
