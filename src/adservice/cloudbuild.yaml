@@ -16,7 +16,7 @@ steps:
         ls
         cd hyyh-manifests
         ls
-        git switch test
+        git switch dev
         sed -i 's#builded-image/adservice:.*#builded-image/adservice:$SHORT_SHA#' kubernetes-manifests.yaml
         echo "Pushing changes to k8s manifest repo ..."
         git config --global user.name "junnn0021"
