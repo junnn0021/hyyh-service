@@ -14,7 +14,7 @@ steps:
         git clone https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/hyyh-manifests.git
         echo "Updating image tag version ..."
         ls
-        cd manifests
+        cd hyyh-manifests
         ls
         sed -i 's#builded-image/adservice:.*#builded-image/adservice:$SHORT_SHA#' kubernetes-manifests.yaml
         echo "Pushing changes to k8s manifest repo ..."
