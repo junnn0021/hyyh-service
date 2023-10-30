@@ -65,7 +65,7 @@ namespace cartservice.cartstore
 
                 string cartFetchCmd = $"SELECT productId, quantity FROM {tableName} WHERE userId = '{userId}'";
                 MySqlCommand command = new(cartFetchCmd, connection);
-                using MySqlDataReader reader = await command.ExecuteReaderAsync();
+                using MySqlDataReader reader = (MySqlDataReader) await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
                     Hipstershop.CartItem item = new()
