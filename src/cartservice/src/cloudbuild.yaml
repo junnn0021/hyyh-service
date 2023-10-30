@@ -1,6 +1,6 @@
 steps:
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/cartservice:$SHORT_SHA", "src/cartservice"]
+    args: ["build", "-t", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/cartservice:$SHORT_SHA", "src/cartservice/src"]
 
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/cartservice:$SHORT_SHA"]
