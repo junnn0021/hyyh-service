@@ -22,15 +22,13 @@ namespace cartservice
 
         public IConfiguration Configuration { get; }
         
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             string redisAddress = Configuration["REDIS_ADDR"];
             string spannerProjectId = Configuration["SPANNER_PROJECT"];
             string spannerConnectionString = Configuration["SPANNER_CONNECTION_STRING"];
             string alloyDBConnectionString = Configuration["ALLOYDB_PRIMARY_IP"];
-            string mysqlConnectionString = Configuration["MYSQL_CONNECTION_STRING"]; // Added MySQL connection string
+            string mysqlConnectionString = Configuration["MYSQL_CONNECTION_STRING"];
 
             if (!string.IsNullOrEmpty(redisAddress))
             {
@@ -49,10 +47,10 @@ namespace cartservice
                 Console.WriteLine("Creating AlloyDB cart store");
                 services.AddSingleton<ICartStore, AlloyDBCartStore>();
             }
-            else if (!string.IsNullOrEmpty(mysqlConnectionString)) // Added MySQL check
+            else if (!string.IsNullOrEmpty(mysqlConnectionString))
             {
                 Console.WriteLine("Creating MySQL cart store");
-                services.AddSingleton<ICartStore, MySqlCartStore>(); // This is a hypothetical class you'd need to implement
+                services.AddSingleton<ICartStore, MySqlCartStore>();
             }
             else
             {
@@ -64,8 +62,6 @@ namespace cartservice
             services.AddGrpc();
         }
 
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
