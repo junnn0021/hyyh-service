@@ -1,11 +1,11 @@
 steps:
-	# src/cartservice 내의 Dockerfile로 이미지 생성
+	# src/currencyservice 내의 Dockerfile로 이미지 생성
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/cartservice:$SHORT_SHA", "src/cartservice/src"]
+    args: ["build", "-t", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/currencyservice:$SHORT_SHA", "src/currencyservice"]
 	
-	# 생성한 이미지를 GAR에 cartservice라는 이름으로 푸시, 태그는 SHORT_SHA의 랜덤 값으로 지정
+	# 생성한 이미지를 GAR에 currencyservice라는 이름으로 푸시, 태그는 SHORT_SHA의 랜덤 값으로 지정
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/cartservice:$SHORT_SHA"]
+    args: ["push", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/currencyservice:$SHORT_SHA"]
 
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: /bin/sh
@@ -24,7 +24,7 @@ steps:
         git switch dev
 
 				# sed 명령어를 사용해서 이미지 태그를 위에서 방금 빌드한 이미지의 태그로 변경 (가장 최신 이미지를 Dev 환경에 자동으로 배포할 수 있도록)
-        sed -i 's#builded-image/cartservice:.*#builded-image/cartservice:$SHORT_SHA#' base/cartservice.yaml
+        sed -i 's#builded-image/currencyservice:.*#builded-image/currencyservice:$SHORT_SHA#' base/currencyservice.yaml
         echo "Pushing changes to k8s manifest repo ..."
 				
 				# 아래 사용자 정보로 커밋/푸시
