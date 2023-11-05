@@ -1,46 +1,32 @@
 steps:
-	# src/checkoutservice 내의 Dockerfile로 이미지 생성
   - name: "gcr.io/cloud-builders/docker"
     args: ["build", "-t", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/checkoutservice:$SHORT_SHA", "src/checkoutservice"]
-	
-	# 생성한 이미지를 GAR에 checkoutservice라는 이름으로 푸시, 태그는 SHORT_SHA의 랜덤 값으로 지정
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "asia-northeast3-docker.pkg.dev/leejunseok-01-400304/builded-image/checkoutservice:$SHORT_SHA"]
-
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: /bin/sh
     secretEnv: ['GIT_ACCESS_TOKEN']
     args:
       - '-c'
       - |
-				# GitHub의 Access Token을 사용해서 ArgoCD와 연동된 배포용 Repository 클론
         git clone https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/hyyh-manifests.git
         echo "Updating image tag version ..."
         ls
         cd hyyh-manifests
         ls
-
-				# dev 브랜치에 푸시함으로써 Dev 환경의 ArgoCD가 변경사항을 바로 감지하고 dev 클러스터에 배포할 수 있도록 함
         git switch dev
-
-				# sed 명령어를 사용해서 이미지 태그를 위에서 방금 빌드한 이미지의 태그로 변경 (가장 최신 이미지를 Dev 환경에 자동으로 배포할 수 있도록)
         sed -i 's#builded-image/checkoutservice:.*#builded-image/checkoutservice:$SHORT_SHA#' base/checkoutservice.yaml
         echo "Pushing changes to k8s manifest repo ..."
-				
-				# 아래 사용자 정보로 커밋/푸시
         git config --global user.name "junnn0021"
         git config --global user.email "junnn0021@gmail.com"
         git add .
         git commit -m "Updated image tag $SHORT_SHA version"
         git push https://junnn0021:$$GIT_ACCESS_TOKEN@github.com/junnn0021/hyyh-manifests.git
 
-# Secret Manager에 등록된 Access Token을 사용
 availableSecrets:
   secretManager:
     - versionName: projects/254364401033/secrets/hyyh-token/versions/1
       env: 'GIT_ACCESS_TOKEN'
 
-# 로그는 cloud logging에만 저장되도록 함
 options:
   logging: 'CLOUD_LOGGING_ONLY'
-  
