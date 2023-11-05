@@ -43,3 +43,4 @@ availableSecrets:
 # 로그는 cloud logging에만 저장되도록 함
 options:
   logging: 'CLOUD_LOGGING_ONLY'
+  
